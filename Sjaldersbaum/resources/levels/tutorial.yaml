@@ -1,0 +1,123 @@
+#/*------------------------------------------------------------------*/
+GENERAL_FONT: &GENERAL_FONT "resources/fonts/sears_tower.ttf"
+
+#/*------------------------------------------------------------------*/
+GENERAL_TITLE_PROPS: &GENERAL_TITLE_PROPS
+  font: *GENERAL_FONT
+  height: 26
+  fill: { a: 220 }
+  outline: { a: 80 }
+  outline_width: 1
+  line_spacing: 1
+
+GENERAL_PROPS: &GENERAL_PROPS
+  font: *GENERAL_FONT
+  height: 20
+  fill: { a: 220 }
+  outline: { a: 40 }
+  outline_width: 1
+  line_spacing: 1.28
+  letter_spacing: 0.8
+
+GENERAL_PROPS_BOLD: &GENERAL_PROPS_BOLD
+  font: *GENERAL_FONT
+  style: "bold"
+  height: 20
+  fill: { a: 200 }
+  outline: { a: 80 }
+  outline_width: 1
+  line_spacing: 1.28
+  letter_spacing: 0.7
+
+#/*------------------------------------------------------------------*/
+bar:
+  title: "Tutorial"
+  command: ""
+  description: "You cannot Escape the tutorial."
+
+light:
+  shader: resources/shaders/lantern_tutorial.frag
+  radius: 600
+  swing: 60
+
+table:
+  bounds: { x: 1100, y: 1100 }
+
+tlc_overlay: ""
+brc_overlay: ""
+
+objects:
+#/*------------------------------------------------------------------*/
+  MAIN:
+    center: __FOCUS
+    size: { x: 450, y: 600 }
+    texture: "resources/textures/objects/A4_lined_alt.png"
+    elements:
+      TITLE:
+        type: text
+        text_props: *GENERAL_TITLE_PROPS
+        text: "-controls-"
+        tlc: { x: 65, y: 45 }
+      BODY_BOLD:
+        type: text
+        text_props: *GENERAL_PROPS_BOLD
+        tlc: { x: 65, y: 103 }
+        text: |2
+          # DRAG THE RIGHT MOUSE BUTTON
+
+
+          # DRAG THE LEFT MOUSE BUTTON
+
+
+          # SCROLL UP / DOWN
+
+
+          # CLICK
+      BODY:
+        type: text
+        text_props: *GENERAL_PROPS
+        tlc: { x: 65, y: 103 }
+        text: |2
+
+          to move your view;
+
+
+          to move objects;
+
+
+          to zoom in or out;
+
+
+          to interact;
+      GIBBERISH:
+        type: text
+        tlc: { x: 65, y: 413 }
+        text_props: *GENERAL_PROPS
+        text: |2
+          P kpk uva opa oly! Pa'z uva aybl!
+          Pa'z ibsszopa, P kpk uva opa oly!
+          P kpk uhhhhha!
+          Vo op Thyr.
+      CONTINUE:
+        type: button
+        texture: "resources/textures/system/continue_stamps.png"
+        color: { r: 250, g: 120, b: 0 }
+        text: Understood
+        action: { command: "hide(MAIN::GIBBERISH); reveal_ic(MAIN::PROMPT); reveal_ic(MAIN::USER_CREATOR); lradius(750, 1);" }
+        tlc: { x: 220, y: 336 }
+      PROMPT:
+        type: text
+        tlc: { x: 65, y: 413 }
+        visible: false
+        text_props: *GENERAL_PROPS
+        text: |2
+          Perfect. That's all there is to it!
+          Please enter your name into the
+          following field to begin:
+      USER_CREATOR:
+        type: inputline
+        tlc: { x: 60, y: 490 }
+        visible: false
+        length: 18
+        solutions:
+          "DEFAULT": { command: "create_user({}); postpone(2); load_user({});" }

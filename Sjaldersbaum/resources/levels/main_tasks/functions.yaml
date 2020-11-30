@@ -1,0 +1,223 @@
+#/*------------------------------------------------------------------*/
+GENERAL_TITLE_PROPS: &GENERAL_TITLE_PROPS
+  font: "resources/fonts/sears_tower.ttf"
+  height: 30
+  style: [italic, bold]
+  fill: { a: 160 }
+  outline: { a: 30 }
+  outline_width: 4
+  letter_spacing: 0.75
+  line_spacing: 1.01
+
+GENERAL_PROPS: &GENERAL_PROPS
+  font: "resources/fonts/sears_tower.ttf"
+  height: 22
+  style: italic
+  fill: { a: 180 }
+  outline: { a: 20 }
+  outline_width: 3
+  letter_spacing: 0.8
+  line_spacing: 1.27
+
+#/*------------------------------------------------------------------*/
+bar:
+  title: Functions
+
+camera:
+  zoom_out: true
+
+light:
+  shader: "resources/shaders/lantern_baw.frag"
+  brightness: 1.05
+  swing: 200
+  radius: 1800
+
+objectives:
+  MAIN:
+    target: 1
+    command: |2
+      reveal(TASK::RETURN_BUTTON);
+
+      store(__MENU_PATH?
+        reveal(MAIN_TASKS::LEVEL4_SOLVED);
+        advance(THANK_YOU);
+      );
+  SECONDARY:
+    target: 2
+    command: |2
+      lock(TASK::SOLUTION);
+
+      store(__MENU_PATH?reveal(MAIN_TASKS::LEVEL4_SOLVED_TWICE));
+      postpone(1.7);
+      lon(false, 0.3);
+      postpone(0.3);
+      menu;
+
+objects:
+  #/*------------------------------------------------------------------*/
+  TASK:
+    texture: "resources/textures/objects/note_plain.png"
+    size: { x: 400, y: 250 }
+    center: { x: 240, y: 0 }
+    elements:
+      TITLE:
+        type: text
+        text_props: *GENERAL_TITLE_PROPS
+        tlc: { x: 20, y: 20 }
+        text: |2
+          Task: Solve either..
+      BODY:
+        type: text
+        text_props: *GENERAL_PROPS
+        tlc: { x: 25, y: 60 }
+        text: |2
+          R(P, 100'000):
+
+
+          C(R(F, 1000), 3):
+      SOLUTION_1:
+        type: inputline
+        tlc: { x: 20, y: 90 }
+        length: 18
+        char_checker: numeric
+        solutions:
+          162380: { command: "lock(TASK::SOLUTION_1); advance(MAIN); advance(SECONDARY);" }
+      SOLUTION_2:
+        type: inputline
+        tlc: { x: 20, y: 175 }
+        length: 10
+        char_checker: numeric
+        solutions:
+          700: { command: "lock(TASK::SOLUTION_2); advance(MAIN); advance(SECONDARY);" }
+      RETURN_BUTTON:
+        type: button
+        texture: "resources/textures/system/return_stamps.png"
+        tlc: { x: 230, y: 175 }
+        text: Return
+        color: { r: 250, g: 250, b: 250 }
+        action: { command: menu }
+        visible: false
+
+#/*------------------------------------------------------------------*/
+  BACKGROUND_4:
+      texture: "resources/textures/objects/A4_plain_old_2.png"
+      size: { x: 250, y: 400 }
+      center: { x: -450, y: -180 }
+      elements:
+        BODY:
+          type: text
+          text_props: *GENERAL_PROPS
+          tlc: { x: 184, y: 213 }
+          text: |2
+            ws:
+            ctal
+
+#/*------------------------------------------------------------------*/
+  BACKGROUND_2:
+    texture: "resources/textures/objects/A4_lined_old_2.png"
+    size: { x: 500, y: 350 }
+    center: { x: 120, y: 170 }
+    elements:
+      TITLE:
+        type: text
+        text_props: *GENERAL_PROPS
+        tlc: { x: 30, y: 166 }
+        text: |2
+          R(f, 2) = f(1) + f(2)
+          R(f, 3) = f(1) + f(2) + f(3)
+          R(f, 4) = f(1) + f(2) + f(3) + f(4)
+          R(f, 5) = f(1) + f(2) + f(3) + f(4) + f(5)
+
+#/*------------------------------------------------------------------*/
+  BACKGROUND_3:
+    texture: "resources/textures/objects/A4_plain_old_1.png"
+    size: { x: 500, y: 700 }
+    center: { x: -100, y: -100 }
+    elements:
+      TITLE:
+        type: text
+        text_props: *GENERAL_TITLE_PROPS
+        tlc: { x: 30, y: 55 }
+        text: "Background:\nMultiple-base palindromes\n\n\n\n\n\n\n\n\n\n\n\nP(x):"
+      BODY:
+        type: text
+        text_props: *GENERAL_PROPS
+        tlc: { x: 30, y: 150 }
+        text: |2
+          Numbers that are read the same in
+          both directions are called palin-
+          dromes. e.g. 1221 == 1221
+
+          But numbers may also be palindromes
+          in multiple bases.
+          For example: even though 195 isn't
+          a palindrome in decimal, it is a
+          palindrome in both octal (303) and
+          binary (11000011).
+          
+
+
+          A function P(x) is defined as follo
+          If x is a palindrome in binary, o
+          and hexadecimal, return x.
+          Otherwise, return 0.
+
+#/*------------------------------------------------------------------*/
+  ENVELOPE:
+    texture: "resources/textures/objects/envelope_old.png"
+    size: { x: 700, y: 400 }
+    center: { x: -100, y: 100 }
+
+#/*------------------------------------------------------------------*/
+  BACKGROUND_1:
+    texture: "resources/textures/objects/A4_lined_old_1.png"
+    size: { x: 500, y: 500 }
+    center: { x: 100, y: -150 }
+    elements:
+      TITLE:
+        type: text
+        text_props: *GENERAL_TITLE_PROPS
+        tlc: { x: 30, y: 48 }
+        text: |2
+          F(x):        C(x, n):
+
+
+
+
+
+
+
+
+
+
+
+          R(f, n):
+      BODY_1:
+        type: text
+        text_props: *GENERAL_PROPS
+        tlc: { x: 30, y: 112 }
+        text: |2
+          F(1) = 1
+          F(2) = 4
+          F(3) = 27
+          F(4) = 256
+          F(5) = 3125
+          F(6) = 46656
+          F(7) = 823543
+          F(8) = 16777216
+          F(9) = 387420489
+          F(10) = 10000000000
+
+
+
+          R(f, 1) = f(1)
+      BODY_2:
+        type: text
+        text_props: *GENERAL_PROPS
+        tlc: { x: 225, y: 112 }
+        text: |2
+          C(47867, 5) = 47867
+          C(47867, 4) = 7867
+          C(47867, 3) = 867
+          C(47867, 2) = 67
+          C(47867, 1) = 7

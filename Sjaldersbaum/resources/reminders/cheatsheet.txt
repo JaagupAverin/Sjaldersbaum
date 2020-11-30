@@ -1,0 +1,216 @@
+#ROOT:
+    // Expects a map that may include:
+    // ======================================
+    // * bar:         <MenuBarData>
+    // * audio:       <AudioData>
+    // * table:       <Table>
+    // * light:       <Light>
+    // * camera:      <Camera>
+    // * objectives:  map<ID, Objective>
+    // * objects:     map<ID, Object>
+    // * tlc_overlay: <std::string>
+    // * brc_overlay: <std::string>
+    // ======================================
+    // All components will have some default value if unspecified.
+
+#MENU_BAR:
+    // Expects a map that consists of:
+    // ======================================================================
+    // * title:       <std::string> = "Untitled"
+    // * command:     <std::string> = "load_level(<MAIN_MENU>)"
+    // * description: <std::string> = "Hold Escape to return to menu-level."
+    // * sound:       <std::string> = <NONE>
+    // ======================================================================
+
+#AUDIO:
+    // Expects a map that consists of:
+    // =========================================
+    // * sounds:    seq<std::string> = []
+    // * playlist:  seq<std::string> = []
+    // ==ADVANCED===============================
+    // * pl_shuffle:  <bool>    = false
+    // * pl_interval: <Seconds> = 0
+    // * pl_loudness: <float>   = 1
+    // =========================================
+
+#TABLE:
+    // Expects a map that consists of:
+    // ========================================================
+    // * texture: <std::string> = <REGULAR_WOOD>
+    // * size:    <PxVec2>      = (2700, 1500)
+    // ==ADVANCED==============================================
+    // * bounds:  <PxVec2>      = (size.x - 100, size.y - 100)
+    // ========================================================
+
+#LIGHT:
+    // Expects a map that consists of:
+    // ==ADVANCED==============================
+    // * shader:     <std::string> = <LANTERN>
+    // * radius:     <Px>          = 1600
+    // * source:     <PxVec2>      = (0, 100)
+    // * brightness: <float>       = 1
+    // * swing:      <Px>          = 100
+    // * on_sound:   <std::string> = <LANTERN>
+    // * off_sound:  <std::string> = <LANTERN>
+    // ========================================
+
+#CAMERA:
+    // Expects a map that consists of:
+    // ==ADVANCED====================
+    // * center:   <PxVec2> = (0, 100)
+    // * zoom_out: <float>  = false
+    // ==============================
+
+#OBJECTIVE:
+    // Expects a map that consists of:
+    // ==========================
+    // * command:  <std::string>
+    // * target:   <int>
+    // * progress: <int> = 0
+    // ==========================
+
+#ENTITY:
+    // Expects a map that consists of:
+    // ==========================================
+    // * center:   <PxVec2> = (0, 0)
+    // * visible:  <bool>   = true
+    // * <nodes expected by derived classes>
+    // ==ADVANCED================================
+    // * tlc:          <PxVec2>      = (?, ?)
+    // * trc:          <PxVec2>      = (?, ?)
+    // * reveal_sound: <std::string> = <GENERIC>
+    // ==========================================
+
+#OBJECT:
+    // Expects a map that includes:
+    // =========================================
+    // * type: <Object::Type> = Sheet
+    // =========================================
+    // Types: [sheet, binder]
+
+#ELEMENT:
+    // Expects a map that includes:
+    // =========================================
+    // * type: <Element::Type>
+    // =========================================
+    // Types: [image, text, button, inputline]
+
+#SHEET:
+    // Expects a map that includes:
+    // ======================================================
+    // * size:         <PxVec2>         = (500, 500)
+    // * texture:      <std::string>    = <SQUARE_GRID>
+    // * elements:     map<ID, Element> = {}
+    // ==ADVANCED============================================
+    // * texture_flip:  <bool>        = false
+    // * pickup_sound:  <std::string> = <PAPER_PICKUPS>
+    // * release_sound: <std::string> = <PAPER_RELEASE>
+    // ======================================================
+    // Note that Sheets can be independent (defined in 'objects'),
+    // or they can belong to a Binder (defined within the said Binder),
+    // defined within said Binder. See Binder's initialization method.
+
+#BINDER:
+    // Expects a map that includes:
+    // ===================================================
+    // * size:         <PxVec2>
+    // * sheets:       map<ID, Sheet>
+    // * active_sheet: <ID>           = <FIRST_SHEET>
+    // ===================================================
+    // For Sheets defined within the Binder, 'size', 'position' and
+    // 'visible' nodes are redundant, as they're determined by the Binder.
+    // Also, the default texture will instead be picked as follows:
+    // 1) <PLACEHOLDER>                   for the first sheet of a Binder;
+    // 2) <FIRST SHEET'S FLIPPED TEXTURE> for the last sheet of a Binder;
+    // 3) <FIRST SHEET'S TEXTURE>         for all other sheets of a Binder.
+
+#IMAGE:
+    // Expects a map that includes:
+    // ==========================================
+    // * texture: <std::string> = <SFML_LOGO>
+    // * size:    <PxVec2>      = <TEXTURE_SIZE>
+    // ==ADVANCED================================
+    // * color: <sf::Color> = <WHITE>
+    // ==========================================
+
+#TEXT:
+    // Expects a map that includes:
+    // ============================================
+    // * text:       <std::string> = "Placeholder"
+    // * text_props: <TextProps>   = <SYSTEM>
+    // ============================================
+
+#BUTTON:
+    // Expects a map that includes:
+    // ========================================
+    // * text:    <std::string> = ""
+    // * action:  <Action>      = <DEFAULT>
+    // ==ADVANCED==============================
+    // * text_props: <TextProps>   = <CASLAME>
+    // * texture:    <std::string> = <LOCKS>
+    // * color:      <sf::Color>   = <GOLD>
+    // * size:       <PxVec2>      = (50, 50)
+    // * locked:     <bool>        = false
+    // * sound:      <std::string> = <LOCKS>
+    // ========================================
+    // The 'texture' node must consist of 3 adjacent icons representing: 
+    // the following states: INTERACTION | UNLOCKED | LOCKED.
+    // The 'size' node is only relevant if no 'text' is specified.
+
+#INPUTLINE:
+    // Expects a map that includes:
+    // =======================================================
+    // * solutions:  map<std::string, Action> = { <DEFAULT> }
+    // * text_props: <TextProps>              = <TYPEWRITER>
+    // * length:     <int>                    = 20
+    // ==ADVANCED=============================================
+    // * char_checker: <CharChecker> = <GRAPHIC>
+    // * input:        <std::string> = ""
+    // * input_save:   <bool>        = true
+    // * auto_clear:   <bool>        = false
+    // * locked:       <bool>        = false
+    // * input_sound:  <std::string> = <TYPEWRITER>
+    // =======================================================
+    // Character checkers: [graphic, numeric, systemic]
+    
+#ACTION:
+    // Expects a map that consists of:
+    // ==================================================
+    // * command: <std::string> = message(<WARNING>)
+    // ==ADVANCED========================================
+    // * repeatable: <bool> = true
+    // * executed:   <bool> = false
+    // ==================================================
+
+#COLOR:
+    // Expects a map that consists of:
+    // ==========================
+    // * r: <unsigned int> = 0
+    // * g: <unsigned int> = 0
+    // * b: <unsigned int> = 0
+    // * a: <unsigned int> = 255
+    // ==========================
+
+#VECTOR2:
+    // Expects a map that consists of:
+    // ====================
+    // * x: <typename Num>
+    // * y: <typename Num>
+    // ====================
+
+#TEXT_PROPS:
+    // Expects a map that consists of:
+    // =============================================================
+    // * font:   <std::string>     = <FIRA_CODE>
+    // * style:  <sf::Text::Style> = <REGULAR>
+    // * height: <Px>              = 30
+    // ==ADVANCED===================================================
+    // * fill:           <sf::Color> = <BLACK>
+    // * outline:        <sf::Color> = <BLACK>
+    // * outline_width:  <Px>        = 0
+    // * letter_spacing: <float>     = 1
+    // * line_spacing:   <float>     = 1
+    // * offsets:        <PxVec2>    = (0, 0)
+    // =============================================================
+    // Styles: [regular, bold, italic, underline, strikethrough]
+    // Note that style can also be a sequence of several styles.

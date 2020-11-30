@@ -1,0 +1,154 @@
+ #/*------------------------------------------------------------------*/
+GENERAL_TITLE_PROPS: &GENERAL_TITLE_PROPS
+  font: "resources/fonts/caslame.ttf"
+  height: 34
+  style: [bold, italic]
+  fill: { a: 180 }
+  outline: { a: 20 }
+  outline_width: 3
+
+GENERAL_PROPS: &GENERAL_PROPS
+  font: "resources/fonts/caslame.ttf"
+  height: 22
+  style: italic
+  fill: { a: 220 }
+  outline: { a: 20 }
+  outline_width: 3
+  letter_spacing: 0.95
+  line_spacing: 1.3
+
+#/*------------------------------------------------------------------*/
+bar:
+  title: Foreword
+
+light:
+  radius: 1000
+
+objects:
+#/*------------------------------------------------------------------*/
+  ENVELOPE:
+    texture: "resources/textures/objects/envelope.png"
+    size: { x: 700, y: 400 }
+    center: __FOCUS
+    elements:
+      CLOSED_COVER:
+        type: image
+        center: { x: 350, y: 200 }
+        texture: "resources/textures/images/envelope_closed_cover.png"
+      WAX:
+        type: button
+        action:
+          command: |2
+            hide(ENVELOPE::CLOSED_COVER);
+            reveal_ic(ENVELOPE::OPEN_COVER);
+            hide(ENVELOPE::WAX);
+            lradius(1500, 2);
+            postpone(0.8);
+            reveal_ic(TASK);
+            postpone(0.4);
+            reveal_ic(BACKGROUND);
+        sound: "resources/audio/sounds/rip.ogg"
+        texture: "resources/textures/system/wax_stamps.png"
+        center: { x: 352, y: 188 }
+        color: { r: 200 }
+        size: { x: 85, y: 85 }
+      OPEN_COVER:
+        type: image
+        center: { x: 350, y: 200 }
+        texture: "resources/textures/images/envelope_open_cover.png"
+        reveal_sound: "resources/audio/sounds/paper_release.ogg"
+        visible: false
+
+#/*------------------------------------------------------------------*/
+  BACKGROUND:
+    texture: "resources/textures/objects/square_folded.png"
+    size: { x: 600, y: 600 }
+    center: { x: 50, y: 200 }
+    visible: false
+    elements:
+      TITLE:
+        type: text
+        text_props: *GENERAL_TITLE_PROPS
+        tlc: { x: 25, y: 60 }
+        text: "Developer's foreword:"
+      BODY:
+        type: text
+        text_props: *GENERAL_PROPS
+        tlc: { x: 25, y: 125 }
+        text: |2      
+          This game was a mistake.
+
+          At no point during its development did I stop to ask
+          myself what the actual goal of this game would be.
+          Several changes of direction, a dire lack of experience,
+          and a deepening sense of desperation were the leading
+          forces which ended up shaping this game.
+
+          Too invested to quit halfway, I have forced myself to
+          finish this damned abortion. The result is a game that
+          doesn't make much sense, and lacks any reason to exist.
+
+          Thank you for your interest,
+          V.
+
+#/*------------------------------------------------------------------*/
+  TASK:
+    texture: "resources/textures/objects/horizontal.png"
+    size: { x: 700, y: 500 }
+    center: { x: 150, y: 200 }
+    visible: false
+    elements:
+      TITLE:
+        type: text
+        text_props: *GENERAL_TITLE_PROPS
+        tlc: { x: 20, y: 40 }
+        text: "Task: A simple script"
+      TASK:
+        type: text
+        text_props:
+          font: "resources/fonts/myunderwood.ttf"
+          fill: { a: 220 }
+          outline: { a: 20 }
+          outline_width: 3
+          height: 22
+          letter_spacing: 0.8
+          line_spacing: 1.2
+        tlc: { x: 25, y: 290 }
+        text: |2
+          > Find the smallest positive integer which, divided by
+            its reversed self, equals 6.
+          > Example: If the question was for the number 4 instead,
+            the answer would be 8712, since 8712 / 2178 = 4.
+      BODY:
+        type: text
+        text_props: *GENERAL_PROPS
+        tlc: { x: 25, y: 100 }
+        text: |2
+          Like all other puzzles in this game, this task is meant to be
+          cracked by a script. The language, in which that script is written,
+          is entirely up to the player to choose. The game only expects you
+          to return with the correct answer.
+
+          Lets get started with a simple, unimaginative task:
+      SOLUTION:
+        type: inputline
+        tlc: { x: 35, y: 400 }
+        length: 14
+        char_checker: numeric
+        solutions:
+          5604390:
+            command: |2
+              lock(TASK::SOLUTION);
+
+              store(__MENU_PATH?
+                reveal(MAIN_TASKS::LEVEL1_SOLVED);
+                unlock(MAIN_TASKS::LEVEL2_BUTTON);
+                unlock(MAIN_TASKS::LEVEL3_BUTTON);
+                unlock(MAIN_TASKS::LEVEL4_BUTTON);
+                unlock(MAIN_TASKS::LEVEL5_BUTTON);
+                unlock(MAIN_TASKS::LEVEL6_BUTTON);
+              );
+              postpone(1.7);
+              lon(false, 0.3);
+              postpone(0.3);
+              menu;

@@ -1,0 +1,180 @@
+ #/*------------------------------------------------------------------*/
+GENERAL_TITLE_PROPS: &GENERAL_TITLE_PROPS
+  font: "resources/fonts/caslame.ttf"
+  height: 34
+  style: bold
+  fill: { a: 180 }
+  outline: { a: 20 }
+  outline_width: 3
+
+GENERAL_PROPS: &GENERAL_PROPS
+  font: "resources/fonts/caslame.ttf"
+  height: 22
+  fill: { a: 220 }
+  outline: { a: 20 }
+  outline_width: 3
+  letter_spacing: 1.05
+  line_spacing: 1.3
+
+GENERAL_PROPS_BOLD: &GENERAL_PROPS_BOLD
+  font: "resources/fonts/chinese_ruler.ttf"
+  height: 20
+  style: bold
+  fill: { a: 180 }
+  outline: { a: 30 }
+  outline_width: 3
+  letter_spacing: 1.1
+  line_spacing: 1.32
+
+ #/*------------------------------------------------------------------*/
+bar:
+  title: Cryptarithms
+
+light:
+  radius: 1000
+
+objectives:
+  MAIN_OBJECTIVE:
+    target: 2
+    command: |2
+      store(__MENU_PATH?
+        reveal(MAIN_TASKS::LEVEL6_SOLVED);
+        advance(THANK_YOU);
+      );
+      postpone(1.7);
+      lon(false, 0.3);
+      postpone(0.3);
+      menu;
+
+objects:
+#/*------------------------------------------------------------------*/
+  ENVELOPE:
+    texture: "resources/textures/objects/envelope.png"
+    size: { x: 700, y: 400 }
+    center: __FOCUS
+    elements:
+      CLOSED_COVER:
+        type: image
+        center: { x: 350, y: 200 }
+        texture: "resources/textures/images/envelope_closed_cover.png"
+      WAX:
+        type: button
+        action:
+          command: |2
+            hide(ENVELOPE::CLOSED_COVER);
+            reveal_ic(ENVELOPE::OPEN_COVER);
+            hide(ENVELOPE::WAX);
+            lradius(1500, 2);
+            postpone(0.8);
+            reveal_ic(TASK);
+            postpone(0.4);
+            reveal_ic(BACKGROUND);        
+        sound: "resources/audio/sounds/rip.ogg"
+        texture: "resources/textures/system/wax_stamps.png"
+        center: { x: 352, y: 188 }
+        color: { r: 200 }
+        size: { x: 85, y: 85 }
+      OPEN_COVER:
+        type: image
+        center: { x: 350, y: 200 }
+        texture: "resources/textures/images/envelope_open_cover.png"
+        reveal_sound: "resources/audio/sounds/paper_release.ogg"
+        visible: false
+
+#/*------------------------------------------------------------------*/
+  BACKGROUND:
+    texture: "resources/textures/objects/horizontal.png"
+    size: { x: 680, y: 460 }
+    center: { x: 50, y: 200 }
+    visible: false
+    elements:
+      TITLE:
+        type: text
+        text_props: *GENERAL_TITLE_PROPS
+        tlc: { x: 25, y: 40 }
+        text: "Background: Cryptharithms"
+      EXAMPLE:
+        type: image
+        texture: "resources/textures/images/cryptarithm_example.png"
+        tlc: { x: 180, y: 292 }
+      BODY:
+        type: text
+        text_props: *GENERAL_PROPS
+        tlc: { x: 25, y: 100 }
+        text: |2
+          The crux of a cryptarithm is simple:
+          You are given an equation where every single digit has been
+          replaced by a letter from the alphabet. Your task is to figure
+          out the original digits. The only additional rule is that the left-
+          most digit of any term CANNOT BE ZERO.
+
+          Consider the following well-known cryptarithm as an example.
+          Note how all occurences of the same letter must correspond
+          to the same digit.
+          More examples
+          on Google.
+
+#/*------------------------------------------------------------------*/
+  TASK:
+    texture: "resources/textures/objects/A4_plain.png"
+    size: { x: 475, y: 665 }
+    center: { x: 180, y: 150 }
+    visible: false
+    elements:
+      TITLE:
+        type: text
+        text_props: *GENERAL_TITLE_PROPS
+        tlc: { x: 25, y: 50 }
+        text: "Task: Cryptarithm solver"
+      BODY:
+        type: text
+        text_props: *GENERAL_PROPS
+        tlc: { x: 30, y: 110 }
+        text: |2
+          Traditionally, cryptarithms are solved on
+          paper by trial and error - by guessing.
+          But we can do better! Write a script that
+          solves cryptarithms. Then use it to solve
+          the following two puzzles.
+
+
+
+
+
+
+
+
+          For both puzzles, only the result of the
+          equation (converted to digits) is needed.
+          e.g., For                      , the 
+          expected solution would be     .
+      BODY_BOLD:
+        type: text
+        text_props: *GENERAL_PROPS_BOLD
+        tlc: { x: 30, y: 252 }
+        text: |2
+
+          1. NEVER + LEAVE + ME = ALONE
+
+
+
+          2. INSIDE + THE + UNITED = STATES
+
+
+
+
+
+                    "SEND + MORE = MONEY"
+                                       10652
+      SOLUTION_1:
+        type: inputline
+        tlc: { x: 25, y: 305 }
+        char_checker: numeric
+        solutions:
+          53021: { command: "lock(TASK::SOLUTION_1); advance(MAIN_OBJECTIVE);" }
+      SOLUTION_2:
+        type: inputline
+        tlc: { x: 25, y: 410 }
+        char_checker: numeric
+        solutions:
+          569645: { command: "lock(TASK::SOLUTION_2); advance(MAIN_OBJECTIVE);" }

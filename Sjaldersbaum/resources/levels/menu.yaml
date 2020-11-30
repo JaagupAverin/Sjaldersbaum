@@ -1,0 +1,411 @@
+#/*------------------------------------------------------------------*/
+TITLE_FONT:       &TITLE_FONT       "resources/fonts/leander.ttf"
+MENU_FONT:        &MENU_FONT        "resources/fonts/caslame.ttf"
+HANDWRITTEN_FONT: &HANDWRITTEN_FONT "resources/fonts/jkasperville.ttf"
+
+TITLE_PROPS: &TITLE_PROPS
+  font: *TITLE_FONT
+  style: underline
+  height: 35
+  fill: { a: 190 }
+  outline: { a: 100 }
+  outline_width: 1
+  
+CREDITS_PROPS: &CREDITS_PROPS
+  font: *MENU_FONT
+  height: 30
+  outline: { a: 100 }
+  outline_width: 1
+  line_spacing: 1.4
+
+#/*------------------------------------------------------------------*/
+bar:
+  title: "Menu"
+  command: "exit"
+  description: "Hold Escape to exit game."
+    
+audio:
+  playlist:
+    - resources/audio/playlist/menu.ogg
+
+camera:
+  center: { x: -500, y: 550 } # Welcome note's center.
+
+light:
+  brightness: 1.0
+
+objectives:
+  THANK_YOU:
+    target: 5
+    command: "unlock(MAIN_TASKS::LEVEL7_BUTTON);"
+
+objects:
+#/*------------------------------------------------------------------*/
+  KEYBOARD_CONTROLS:
+    center: { x: -900, y: 100 }
+    size: { x: 420, y: 580 }
+    texture: "resources/textures/objects/A4_plain_old_1.png"
+    elements:
+      BODY:
+        type: text
+        tlc: { x: 30, y: 60 }
+        text_props:
+          font: "resources/fonts/myunderwood.ttf"
+          height: 22
+          fill: { a: 170 }
+          outline: { a: 20 }
+          outline_width: 3
+          letter_spacing: 0.95
+          line_spacing: 1.05
+        text: |
+          ADVANCED KEY BINDINGS
+
+          It's possible to play this game
+          using only the keyboard.
+          The keyboard equivalent of a
+          cursor is the crosshair, which
+          appears automatically when
+          using the following keys:
+
+          - CTRL/ALT + W/A/S/D
+            ... to move your view.
+
+          - CTRL/ALT + P
+            ... to move objects.
+
+          - CTRL/ALT + I/O
+            ... to zoom In or Out.
+
+          - CTRL/ALT + F
+            ... to interact.
+
+#/*------------------------------------------------------------------*/
+  MAIN_TASKS:
+    center: { x: 0, y: 300 }
+    size: { x: 450, y: 600 }
+    texture: "resources/textures/objects/A4_lined.png"
+    elements:
+      TITLE:
+        type: text
+        text: Tasks
+        text_props: *TITLE_PROPS
+        center: { x: 230, y: 79 }
+      
+      BG_LOGO_1:
+        type: image
+        texture: "resources/textures/images/sjaldersbaum_logo.png"
+        size: { x: 150, y: 150 }
+        center: { x: 340, y: 470 }
+        color: { a: 30 }
+      BG_LOGO_2:
+        type: image
+        texture: "resources/textures/images/sjaldersbaum_logo.png"
+        size: { x: 150, y: 150 }
+        center: { x: 240, y: 440 }
+        color: { a: 20 }
+      BG_LOGO_3:
+        type: image
+        texture: "resources/textures/images/pi.png"
+        size: { x: 150, y: 150 }
+        center: { x: 300, y: 400 }
+        color: { a: 140 }
+
+      LEVEL1_BUTTON:
+        type: button
+        text: "Foreword"
+        action: { command: "load_level(resources/levels/main_tasks/Foreword.yaml)" }
+        tlc: { x: 55, y: 150 }
+      LEVEL1_SOLVED:
+        type: image
+        texture: "resources/textures/images/solved.png"
+        size: { x: 60, y: 60 }
+        tlc: { x: 350, y: 145 }
+        visible: false
+      LEVEL2_BUTTON:
+        type: button
+        text: "Rabbits"
+        tlc: { x: 55, y: 205 }
+        action: { command: "load_level(resources/levels/main_tasks/fibonacci.yaml)" }
+        locked: true
+      LEVEL2_SOLVED:
+        type: image
+        texture: "resources/textures/images/solved.png"
+        size: { x: 60, y: 60 }
+        tlc: { x: 350, y: 200 }
+        visible: false
+      LEVEL3_BUTTON:
+        type: button
+        text: "Look-and-say"
+        tlc: { x: 55, y: 260 }
+        action: { command: "load_level(resources/levels/main_tasks/data_analysis.yaml)" }
+        locked: true
+      LEVEL3_SOLVED:
+        type: image
+        texture: "resources/textures/images/solved.png"
+        size: { x: 60, y: 60 }
+        tlc: { x: 350 , y: 255 }
+        visible: false
+      LEVEL4_BUTTON:
+        type: button
+        text: "Functions"
+        tlc: { x: 55, y: 315 }
+        action: { command: "load_level(resources/levels/main_tasks/functions.yaml)" }
+        locked: true
+      LEVEL4_SOLVED_TWICE:
+        type: image
+        texture: "resources/textures/images/solved.png"
+        color: { r: 250, g: 200, b: 200, a: 150 }
+        size: { x: 60, y: 60 }
+        tlc: { x: 360, y: 315 }
+        visible: false
+      LEVEL4_SOLVED:
+        type: image
+        texture: "resources/textures/images/solved.png"
+        size: { x: 60, y: 60 }
+        tlc: { x: 350, y: 310 }
+        visible: false
+      LEVEL5_BUTTON:
+        type: button
+        text: "Coins"
+        action: { command: "load_level(resources/levels/main_tasks/coins.yaml)" }
+        tlc: { x: 55, y: 370 }
+        locked: true
+      LEVEL5_SOLVED:
+        type: image
+        texture: "resources/textures/images/solved.png"
+        size: { x: 60, y: 60 }
+        tlc: { x: 350, y: 365 }
+        visible: false
+      LEVEL6_BUTTON:
+        type: button
+        text: "Cryptarithms"
+        action: { command: "load_level(resources/levels/main_tasks/cryptarithms.yaml)" }
+        tlc: { x: 55, y: 425 }
+        locked: true
+      LEVEL6_SOLVED:
+        type: image
+        texture: "resources/textures/images/solved.png"
+        size: { x: 60, y: 60 }
+        tlc: { x: 350, y: 420 }
+        visible: false
+      LEVEL7_BUTTON:
+        type: button
+        text: "Thank You!"
+        action: { command: "load_level(resources/levels/main_tasks/thank_you.yaml)" }
+        tlc: { x: 55, y: 480 }
+        locked: true
+      LEVEL7_SOLVED:
+        type: image
+        texture: "resources/textures/images/solved.png"
+        size: { x: 60, y: 60 }
+        tlc: { x: 350, y: 475 }
+        visible: false
+
+#/*------------------------------------------------------------------*/
+  WELCOME_NOTE:
+    type: binder
+    center: { x: -500, y: 550 }
+    size: { x: 380, y: 240 }
+    sheets:
+      FRONT:
+        texture: "resources/textures/objects/note_lined.png"
+        elements:
+          MESSAGE:
+            type: text
+            text: |
+              So you've made it! Cool.
+              Now navigate to the Tasks
+              sheet to begin.
+              Or check out the settings.
+              Or... just stare at this piece
+              of paper, it won't mind. 
+            text_props:
+              font: *HANDWRITTEN_FONT
+              height: 28
+              fill: { a: 200 }
+              outline: { a: 30 }
+              outline_width: 1
+              letter_spacing: 1.4
+            tlc: { x: 30, y: 25 }
+      BACK:
+        elements:
+          MESSAGE:
+            type: text
+            text: |
+              You've found the only multi-
+              sided object in the game!
+              Why is it here? -Because this
+              feature wasn't needed anywhere
+              else in the game and I wanted
+              to use it at least once.
+              
+            text_props:
+              font: *HANDWRITTEN_FONT
+              height: 28
+              fill: { a: 200 }
+              outline: { a: 30 }
+              outline_width: 1
+              letter_spacing: 1.4
+            tlc: { x: 25, y: 25 }
+
+#/*------------------------------------------------------------------*/
+  CREDITS:
+    center: { x: 700, y: -300 }
+    size: { x: 480, y: 640 }
+    texture: "resources/textures/objects/A4_plain_weary.png"
+    elements:
+      TITLE:
+        type: text
+        text: "Credits"
+        text_props:
+          font: *TITLE_FONT
+          style: underline
+          height: 60
+          outline: { a: 70 }
+          outline_width: 2
+        center: { x: 240, y: 110 }
+      SFML_LOGO:
+        type: image
+        texture: "resources/textures/images/sfml.png"
+        size: { x: 150, y: 150 }
+        tlc: { x: 25, y: 170 }
+      CPP_LOGO:
+        type: image
+        texture: "resources/textures/images/cpp.png"
+        size: { x: 180, y: 180 }
+        tlc: { x: 260, y: 240 }
+      SFML_SUBHEADER:
+        type: text
+        text: "Media powered by:\nSFML"
+        text_props: *CREDITS_PROPS
+        tlc: { x: 160, y: 195 }
+      LIBS_SUBHEADER:
+        type: text
+        text: "Other libs used:"
+        text_props: *CREDITS_PROPS
+        tlc: { x: 60, y: 295 }
+      LIBS:
+        type: text
+        text: |
+          - yaml-cpp by JBeder
+          - ordered-map by Tessil
+        text_props:
+          font: *MENU_FONT
+          height: 20
+          outline: { a: 100 }
+          outline_width: 1
+          line_spacing: 1.5
+        tlc: { x: 60, y: 335 }
+      OTHER:
+        type: text
+        text: |
+          Fonts ............ Tension Type
+          SFX .......................... ZapSplat
+          Other Stuff ........................ V.
+        text_props: *CREDITS_PROPS
+        center: { x: 240, y: 485 }
+
+#/*------------------------------------------------------------------*/
+  USER_MANAGER:
+    center: { x: 1000, y: 350 }
+    size: { x: 460, y: 470 }
+    texture: "resources/textures/objects/square_lined.png"
+    elements:
+      TITLE:
+        type: text
+        text: "User-management"
+        text_props: *TITLE_PROPS
+        tlc: { x: 45, y: 70 }
+      TAGS:
+        type: text
+        text: "- load: \n\n- create: \n\n- erase: \n\n- users:"
+        text_props:
+          font: *MENU_FONT
+          height: 24
+          outline: { a: 120 }
+          outline_width: 1
+          line_spacing: 1.67
+        tlc: { x: 50, y: 125 }
+      USER_LOADER:
+        type: inputline
+        solutions: { "DEFAULT": { command: "load_user({})" } }
+        char_checker: usernamic
+        length: 20
+        tlc: { x: 30, y: 155 }
+        auto_clear: true
+      USER_CREATOR:
+        type: inputline
+        solutions: { "DEFAULT": { command:  "create_user({})" } }
+        char_checker: usernamic
+        length: 20
+        tlc: { x: 30, y: 235 }
+        auto_clear: true
+      USER_ERASER:
+        type: inputline
+        solutions: { "DEFAULT": { command:  "erase_user({})" } }
+        char_checker: usernamic
+        length: 20
+        tlc: { x: 30, y: 315 }
+        auto_clear: true
+      USER_LIST:
+        type: text
+        text: "YOU_SHOULD_NOT_SEE_THIS"
+        text_props:
+          font: *HANDWRITTEN_FONT
+          height: 24
+          outline: { a: 70 }
+          outline_width: 1
+          line_spacing: 1.1
+        tlc: { x: 140, y: 365 }
+
+#/*------------------------------------------------------------------*/
+  TECHNICALITIES:
+    center: { x: 800, y: 440 }
+    size: { x: 420, y: 420 }
+    texture: "resources/textures/objects/square_grid.png"
+    elements:
+      TITLE:
+        type: text
+        text: "Technicalities"
+        text_props: *TITLE_PROPS
+        tlc: { x: 45, y: 70 }
+      TAGS:
+        type: text
+        text: "- FPS-cap: \n\n- vSync: \n\n- fullscreen: \n\n- volume:"
+        text_props:
+          font: *MENU_FONT
+          height: 24
+          outline: { a: 120 }
+          outline_width: 1
+          line_spacing: 1.24
+        tlc: { x: 30, y: 150 }
+      FPS_CAP_LINE:
+        type: inputline
+        solutions: { "DEFAULT": { command: "fpscap({})" } }
+        char_checker: numeric
+        length: 10
+        input: __FPS_CAP
+        input_save: false
+        tlc: { x: 180, y: 140 }
+      VSYNC_LINE:
+        type: inputline
+        solutions: { "DEFAULT": { command: "vsync({})" } }
+        length: 10
+        input: __VSYNC
+        input_save: false
+        tlc: { x: 180, y: 200 }
+      FULLSCREEN_LINE:
+        type: inputline
+        solutions: { "DEFAULT": { command: "fullscreen({})" } }
+        length: 10
+        input: __FULLSCREEN
+        input_save: false 
+        tlc: { x: 180, y: 260 }
+      VOLUME_LINE:
+        type: inputline
+        solutions: { "DEFAULT": { command: "volume({})" } }
+        char_checker: numeric
+        length: 10
+        input: __VOLUME
+        input_save: false
+        tlc: { x: 180, y: 320 }

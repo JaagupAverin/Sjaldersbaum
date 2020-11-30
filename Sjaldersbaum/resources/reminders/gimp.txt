@@ -1,0 +1,21 @@
+// Black borders:
+1: acrilyc 05:
+    100% x  11
+    80%  x  21
+    60%  x  31
+    40%  x  41
+    20%  x  51
+2: 10% x 100 extra smudge
+3: cubism 1.5 x 4.0/4.5
+4: gaussian blur 0.5 x 0.5
+
+// Backgrounds:
+1: acrylic stains at 5%
+2: posterize 8-12
+3: oilify 4-6
+4: acrylic stains
+5: add layer mask (transfer alpha channel)
+6: to new image
+7: posterize + oilify
+8: copy back to layer
+9: merge

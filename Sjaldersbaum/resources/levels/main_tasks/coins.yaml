@@ -1,0 +1,172 @@
+ #/*------------------------------------------------------------------*/
+GENERAL_TITLE_PROPS: &GENERAL_TITLE_PROPS
+  font: "resources/fonts/chinese_ruler.ttf"
+  height: 34
+  style: italic
+  fill: { a: 190 }
+  outline: { a: 20 }
+  outline_width: 3
+
+GENERAL_PROPS: &GENERAL_PROPS
+  font: "resources/fonts/chinese_ruler.ttf"
+  height: 22
+  style: italic
+  fill: { a: 210 }
+  outline: { a: 20 }
+  outline_width: 3
+  letter_spacing: 1.05
+  line_spacing: 1.25
+
+GENERAL_PROPS_BOLD: &GENERAL_PROPS_BOLD
+  font: "resources/fonts/chinese_ruler.ttf"
+  height: 22
+  style: [bold, italic]
+  fill: { a: 210 }
+  outline: { a: 20 }
+  outline_width: 3
+  letter_spacing: 1.05
+  line_spacing: 1.25
+
+NOTE_PROPS: &NOTE_PROPS
+  font: "resources/fonts/beans.ttf"
+  height: 24
+  fill: { a: 200 }
+  outline: { a: 15 }
+  outline_width: 5
+  line_spacing: 1.1
+  
+ #/*------------------------------------------------------------------*/
+bar:
+  title: Coins
+
+light:
+  radius: 1000
+
+objects:
+#/*------------------------------------------------------------------*/
+  ENVELOPE:
+    texture: "resources/textures/objects/envelope.png"
+    size: { x: 700, y: 400 }
+    center: __FOCUS
+    elements:
+      CLOSED_COVER:
+        type: image
+        center: { x: 350, y: 200 }
+        texture: "resources/textures/images/envelope_closed_cover.png"
+      WAX:
+        type: button
+        action:
+          command: |2
+            hide(ENVELOPE::CLOSED_COVER);
+            reveal_ic(ENVELOPE::OPEN_COVER);
+            hide(ENVELOPE::WAX);
+            lradius(1500, 2);
+            postpone(0.8);
+            reveal_ic(TASK);
+        sound: "resources/audio/sounds/rip.ogg"
+        texture: "resources/textures/system/wax_stamps.png"
+        center: { x: 352, y: 188 }
+        color: { r: 200 }
+        size: { x: 85, y: 85 }
+      OPEN_COVER:
+        type: image
+        center: { x: 350, y: 200 }
+        texture: "resources/textures/images/envelope_open_cover.png"
+        reveal_sound: "resources/audio/sounds/paper_release.ogg"
+        visible: false
+
+#/*------------------------------------------------------------------*/
+  TASK:
+    texture: "resources/textures/objects/square_grid.png"
+    size: { x: 500, y: 500 }
+    center: { x: 0, y: 110 }
+    visible: false
+    elements:
+      TITLE:
+        type: text
+        text_props: *GENERAL_TITLE_PROPS
+        tlc: { x: 25, y: 40 }
+        text: "Task: Counting coins"
+      BODY:
+        type: text
+        text_props: *GENERAL_PROPS
+        tlc: { x: 30, y: 95 }
+        text: |2
+          The Prime Kingdom uses the following coins:
+                                     and
+
+          A Prime Dollar equals to 101 cents, and could,
+          for example, be composed in the following ways:
+          (13c * 7) + (7c * 1) + (3c * 1) = 101c = 1$
+          (13c * 4) + (7c * 7) = 101c = 1$
+           ...
+
+          In how many different ways could a Prime Dollar
+          be formed, using any number of these coins?
+      BODY_BOLD:
+        type: text
+        text_props: *GENERAL_PROPS_BOLD
+        tlc: { x: 33, y: 122 }
+        text: |2          
+          2c, 3c, 5c, 7c, 11c, 13c     17c.
+      SOLUTION:
+        type: inputline
+        tlc: { x: 25, y: 400 }
+        length: 12
+        char_checker: numeric
+        solutions:
+          12492:
+            command: |2
+              lock(TASK::SOLUTION);
+
+              store(__MENU_PATH?
+                reveal(MAIN_TASKS::LEVEL5_SOLVED);
+                advance(THANK_YOU);
+              );
+              postpone(1.7);
+              lon(false, 0.3);
+              postpone(0.3);
+              menu;
+      FUN_FACT_BACKGROUND:
+        type: image
+        texture: "resources/textures/images/clipnote.png"
+        size: { x: 495, y: 250 }
+        tlc: { x: 25, y: -20 }
+      FUN_FACT_TEXT:
+        type: text
+        text_props: *NOTE_PROPS
+        tlc: { x: 65, y: 15 }
+        text: |2
+          As there is no relevant background for this
+          task, you are instead blessed with following
+          worthless trivia:
+          Modern capital isn't backed by gold, nor by
+          actual cash. Less than 8% of the world's
+          finances exist in touchable, physical form.
+      FUN_FACT_CLIP:
+          type: button
+          texture: "resources/textures/system/paperclip_stamps.png"
+          size: { x: 100, y: 100 }
+          tlc: { x: 360, y: -25 }
+          color: { r: 200 }
+          sound: "resources/audio/sounds/rip.ogg"
+          action: { command: hide(TASK::FUN_FACT_BACKGROUND); hide(TASK::FUN_FACT_TEXT); hide(TASK::FUN_FACT_CLIP); reveal_ic(FUN_FACT)}
+
+#/*------------------------------------------------------------------*/
+  FUN_FACT:
+    texture: "resources/textures/objects/clipnote.png"
+    size: { x: 450, y: 200 }
+    center: { x: 50, y: -50 }
+    visible: false
+    elements:
+      BODY:
+        type: text
+        text_props: *NOTE_PROPS
+        tlc: { x: 20, y: 15 }
+        text: |2
+          As there is no relevant background for this
+          task, you are instead blessed with the
+          following piece of worthless trivia:
+          Modern capital isn't backed by gold, nor by
+          actual cash. Less than 8% of the world's
+          finances exist in touchable, physical form.

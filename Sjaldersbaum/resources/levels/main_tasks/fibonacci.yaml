@@ -1,0 +1,181 @@
+#/*------------------------------------------------------------------*/
+GENERAL_TITLE_PROPS: &GENERAL_TITLE_PROPS
+  font: "resources/fonts/chinese_ruler.ttf"
+  height: 34
+  fill: { a: 190 }
+  outline: { a: 20 }
+  outline_width: 3
+
+GENERAL_PROPS: &GENERAL_PROPS
+  font: "resources/fonts/chinese_ruler.ttf"
+  height: 22
+  fill: { a: 210 }
+  outline: { a: 20 }
+  outline_width: 3
+  letter_spacing: 1.0
+  line_spacing: 1.28
+
+GENERAL_PROPS_BOLD: &GENERAL_PROPS_BOLD
+  font: "resources/fonts/chinese_ruler.ttf"
+  height: 22
+  style: bold
+  fill: { a: 210 }
+  outline: { a: 20 }
+  outline_width: 3
+  letter_spacing: 1.0
+  line_spacing: 1.28
+
+#/*------------------------------------------------------------------*/
+bar:
+  title: Rabbits
+
+light:
+  radius: 1000
+
+objects:
+#/*------------------------------------------------------------------*/
+  ENVELOPE:
+    texture: "resources/textures/objects/envelope.png"
+    size: { x: 700, y: 400 }
+    center: __FOCUS
+    elements:
+      CLOSED_COVER:
+        type: image
+        center: { x: 350, y: 200 }
+        texture: "resources/textures/images/envelope_closed_cover.png"
+      WAX:
+        type: button
+        action:
+          command: |2
+            hide(ENVELOPE::CLOSED_COVER);
+            reveal_ic(ENVELOPE::OPEN_COVER);
+            hide(ENVELOPE::WAX);
+            lradius(1500, 2);
+            postpone(0.8);
+            reveal_ic(TASK);
+            postpone(0.4);
+            reveal_ic(BACKGROUND);
+        sound: "resources/audio/sounds/rip.ogg"
+        texture: "resources/textures/system/wax_stamps.png"
+        center: { x: 352, y: 188 }
+        color: { r: 200 }
+        size: { x: 85, y: 85 }
+      OPEN_COVER:
+        type: image
+        center: { x: 350, y: 200 }
+        texture: "resources/textures/images/envelope_open_cover.png"
+        reveal_sound: "resources/audio/sounds/paper_release.ogg"
+        visible: false
+
+#/*------------------------------------------------------------------*/
+  BACKGROUND:
+    texture: "resources/textures/objects/square_folded.png"
+    size: { x: 670, y: 640 }
+    center: { x: 50, y: 200 }
+    visible: false
+    elements:
+      TITLE:
+        type: text
+        text_props: *GENERAL_TITLE_PROPS
+        tlc: { x: 30, y: 55 }
+        text: "Background: Fibonacci's Rabbits"
+      EXAMPLE:
+        type: image
+        texture: resources/textures/images/fibonacci.png
+        size: { x: 560, y: 160 }
+        tlc: { x: 85, y: 435 }
+      BODY:
+        type: text
+        text_props: *GENERAL_PROPS
+        tlc: { x: 30, y: 120 }
+        text: |2
+          The conundrum of Fibonacci's Rabbits is a mathematical problem
+          that dates back nearly a thousand years. The following is a succint
+          version of it:
+
+          Suppose a newly-born pair of rabbits (one male, one female) is put
+          in a field. Rabbits start mating at the age of one month, and will
+          produce a pair of offprings every single month afterwards.
+          Assume that the rabbits never die, and that each newly born pair
+          consists of one male and one female rabbit. How many rabbit pairs
+          would there be at the beginning of the
+
+          This classical conundrum is easily solved by following the Fibonacci
+          sequece:
+      BODY_BOLD:
+        type: text
+        text_props: *GENERAL_PROPS_BOLD
+        tlc: { x: 30, y: 120 }
+        text: |2
+
+
+
+
+
+
+
+
+
+                                             12th month?
+
+#/*------------------------------------------------------------------*/
+  TASK:
+    texture: "resources/textures/objects/square_lined.png"
+    size: { x: 500, y: 500 }
+    center: { x: 180, y: 150 }
+    visible: false
+    elements:
+      TITLE:
+        type: text
+        text_props: *GENERAL_TITLE_PROPS
+        tlc: { x: 25, y: 45 }
+        text: "Task: Mortal rabbits"
+      BODY:
+        type: text
+        text_props: *GENERAL_PROPS
+        tlc: { x: 30, y: 110 }
+        text: |2
+          The traditional version of Fibonacci's rabbits is
+          filled with many assumptions. Let's make the
+          puzzle slightly more realistic by changing one
+          of these assumptions:
+
+
+
+
+          Adhering to that alteration, find out, how many
+          rabbits would there be at the beginning of the
+      BODY_BOLD:
+        type: text
+        text_props: *GENERAL_PROPS_BOLD
+        tlc: { x: 30, y: 110 }
+        text: |2
+          
+
+
+
+
+          > All rabbits shall now live for exactly 12
+            and a half months.
+
+
+
+          36th month:
+      SOLUTION:
+        type: inputline
+        tlc: { x: 160, y: 395 }
+        length: 12
+        char_checker: numeric
+        solutions:
+          28226436:
+            command: |2
+              lock(TASK::SOLUTION);
+
+              store(__MENU_PATH?
+                reveal(MAIN_TASKS::LEVEL2_SOLVED);
+                advance(THANK_YOU);
+              );
+              postpone(1.7);
+              lon(false, 0.3);
+              postpone(0.3);
+              menu;

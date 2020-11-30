@@ -1,0 +1,196 @@
+ #/*------------------------------------------------------------------*/
+GENERAL_TITLE_PROPS: &GENERAL_TITLE_PROPS
+  font: "resources/fonts/jkasperville.ttf"
+  height: 34
+  fill: { a: 180 }
+  outline: { a: 20 }
+  outline_width: 3
+
+GENERAL_PROPS: &GENERAL_PROPS
+  font: "resources/fonts/jkasperville.ttf"
+  height: 24
+  fill: { a: 210 }
+  outline: { a: 20 }
+  outline_width: 3
+  line_spacing: 1.25
+
+GENERAL_PROPS_BOLD: &GENERAL_PROPS_BOLD
+  font: "resources/fonts/jkasperville.ttf"
+  height: 30
+  style: bold
+  fill: { a: 200 }
+  outline: { a: 30 }
+  outline_width: 3
+  letter_spacing: 2.9
+  line_spacing: 2
+
+ #/*------------------------------------------------------------------*/
+bar:
+  title: Look-and-say
+
+light:
+  radius: 1000
+
+objectives:
+  MAIN_OBJECTIVE:
+    target: 4
+    command: |2
+      store(__MENU_PATH?
+        reveal(MAIN_TASKS::LEVEL3_SOLVED);
+        advance(THANK_YOU);
+      );
+      postpone(1.7);
+      lon(false, 0.3);
+      postpone(0.3);
+      menu;
+
+objects:
+#/*------------------------------------------------------------------*/
+  ENVELOPE:
+    texture: "resources/textures/objects/envelope.png"
+    size: { x: 700, y: 400 }
+    center: __FOCUS
+    elements:
+      CLOSED_COVER:
+        type: image
+        center: { x: 350, y: 200 }
+        texture: "resources/textures/images/envelope_closed_cover.png"
+      WAX:
+        type: button
+        action:
+          command: |2
+            hide(ENVELOPE::CLOSED_COVER);
+            reveal_ic(ENVELOPE::OPEN_COVER);
+            hide(ENVELOPE::WAX);
+            lradius(1500, 2);
+            postpone(0.8);
+            reveal_ic(TASK);
+            postpone(0.4);
+            reveal_ic(BACKGROUND);
+        sound: "resources/audio/sounds/rip.ogg"
+        texture: "resources/textures/system/wax_stamps.png"
+        center: { x: 352, y: 188 }
+        color: { r: 200 }
+        size: { x: 85, y: 85 }
+      OPEN_COVER:
+        type: image
+        center: { x: 350, y: 200 }
+        texture: "resources/textures/images/envelope_open_cover.png"
+        reveal_sound: "resources/audio/sounds/paper_release.ogg"
+        visible: false
+
+#/*------------------------------------------------------------------*/
+  BACKGROUND:
+    texture: "resources/textures/objects/square_folded.png"
+    size: { x: 670, y: 640 }
+    center: { x: 50, y: 200 }
+    visible: false
+    elements:
+      TITLE:
+        type: text
+        text_props: *GENERAL_TITLE_PROPS
+        tlc: { x: 30, y: 55 }
+        text: "Background: Look-and-say  sequence"
+      BODY:
+        type: text
+        text_props: *GENERAL_PROPS
+        tlc: { x: 30, y: 120 }
+        text: |2
+          The  look-and-say  sequence  is  a  sequence  of  integers  in  which
+          every  following  member  is  generated  by  looking  at  the  latest
+          member  of  the  sequence,  saying  it  out  loud,  and  writing  down
+          all  numbers  that  were  said.  It  goes  as  follows:
+
+
+             1.  The  sequence  begins  at    .
+                 The  number  1  is  said  as:  one  one.
+             2.  The  second  element  is  therefore       .
+                 The  number  11  is  said  as:  two  ones.
+             3.  The  third  element  is  therefore        .
+                 The  number  21  is  said  as:  one  two.  one  one.
+             4.  The  fourth  element  is  therefore             .
+                 The  number  1211  is  said  as:  one  one.  one  two.  two  ones.
+             5.  The  fifth  element  is  therefore                   .  [...]
+
+      SEQUENCE:
+        type: text
+        text_props: *GENERAL_PROPS_BOLD
+        tlc: { x: 30, y: 250 }
+        text: "> 1, 11, 21, 1211, 111221, 312211, ..."
+      NUMBERS:
+        type: text
+        text_props: *GENERAL_PROPS_BOLD
+        tlc: { x: 30, y: 295 }
+        text: |2
+                                 1
+                                         11
+                                        21
+                                         1211
+                                         111221
+
+#/*------------------------------------------------------------------*/
+  TASK:
+    texture: "resources/textures/objects/A4_lined_alt.png"
+    size: { x: 500, y: 700 }
+    center: { x: 180, y: 150 }
+    visible: false
+    elements:
+      TITLE:
+        type: text
+        text_props: *GENERAL_TITLE_PROPS
+        tlc: { x: 60, y: 50 }
+        text: "Task: Data  analysis"
+      BODY:
+        type: text
+        text_props: *GENERAL_PROPS
+        tlc: { x: 60, y: 120 }
+        text: |2
+          We  will  be  using  the  50th  number  in  the  
+          look-and-say  sequence  as  our  subject  data.
+          Generate  it,  and  find  out  the  following
+          about  it.
+
+          1. Length  of  data :
+
+
+          2. Occurrences  of the  number  '               ':
+
+
+          3. Most  common  8-digit  number :
+
+
+          4. Biggest  8-digit  number :
+      NUMBER:
+        type: text
+        text_props: *GENERAL_PROPS_BOLD
+        tlc: { x: 344, y: 355 }
+        text: 32111
+
+      SOLUTION_1:
+        type: inputline
+        tlc: { x: 70, y: 305 }
+        length: 12
+        char_checker: numeric
+        solutions:
+          894810: { command: "lock(TASK::SOLUTION_1); advance(MAIN_OBJECTIVE);" }
+      SOLUTION_2:
+        type: inputline
+        tlc: { x: 70, y: 395 }
+        length: 12
+        char_checker: numeric
+        solutions:
+          2048: { command: "lock(TASK::SOLUTION_2); advance(MAIN_OBJECTIVE);" }
+      SOLUTION_3:
+        type: inputline
+        tlc: { x: 70, y: 485 }
+        length: 8
+        char_checker: numeric
+        solutions:
+          11211131: { command: "lock(TASK::SOLUTION_3); advance(MAIN_OBJECTIVE);" }
+      SOLUTION_4:
+        type: inputline
+        tlc: { x: 70, y: 575 }
+        length: 8
+        char_checker: numeric
+        solutions:
+          33221231: { command: "lock(TASK::SOLUTION_4); advance(MAIN_OBJECTIVE);" }

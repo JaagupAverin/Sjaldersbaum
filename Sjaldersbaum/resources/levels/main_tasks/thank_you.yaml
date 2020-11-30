@@ -1,0 +1,95 @@
+ #/*------------------------------------------------------------------*/
+GENERAL_TITLE_PROPS: &GENERAL_TITLE_PROPS
+  font: "resources/fonts/helveticrap.ttf"
+  height: 70
+  fill: { a: 230 }
+  outline: { a: 30 }
+  outline_width: 4
+
+GENERAL_PROPS: &GENERAL_PROPS
+  font: "resources/fonts/helveticrap.ttf"
+  height: 30
+  fill: { a: 220 }
+  outline: { a: 20 }
+  outline_width: 4
+  line_spacing: 1.2
+
+GENERAL_PROPS_ITALIC: &GENERAL_PROPS_ITALIC
+  font: "resources/fonts/helveticrap.ttf"
+  height: 20
+  style: italic
+  fill: { a: 200 }
+  outline: { a: 10 }
+  outline_width: 3
+  line_spacing: 1.2
+
+ #/*------------------------------------------------------------------*/
+bar:
+  title: Thank You!
+
+light:
+  shader: "resources/shaders/lantern_party.frag"
+  radius: 2000
+  swing: 500
+  on_sound: "resources/audio/sounds/party_on.ogg"
+
+tlc_overlay: "resources/textures/overlays/party_tlc.png"
+brc_overlay: "resources/textures/overlays/party_brc.png"
+
+table:
+  texture: "resources/textures/tables/party_table.png"
+
+audio:
+  playlist:
+    - "resources/audio/playlist/menu.ogg"
+
+objects:
+#/*------------------------------------------------------------------*/
+  THANK_YOU:
+    texture: "resources/textures/objects/party_square.png"
+    size: { x: 660, y: 630 }
+    center: __FOCUS
+    visible: true
+    elements:
+      TITLE:
+        type: text
+        text_props: *GENERAL_TITLE_PROPS
+        center: { x: 330, y: 160 }
+        text: |2
+           Thank You
+          for playing!
+      BODY:
+        type: text
+        text_props: *GENERAL_PROPS
+        center: { x: 330, y: 330 }
+        text: |2
+             For all your struggles and
+            endeavors, you are presented
+             with this sad, pathetic and
+           anticlimatic ending. That's all.
+          Hope you had some fun at least!
+      BODY_ITALIC:
+        type: text
+        text_props: *GENERAL_PROPS_ITALIC
+        center: { x: 330, y: 470 }
+        text: |2
+            Pst! If you liked the concept of this game,
+          also check out the Euler Project - a website
+             dedicated solely to programming puzzles.
+      GOODBYE:
+        type: button
+        text: Goodbye
+        text_props:
+          font: "resources/fonts/helveticrap.ttf"
+          style: regular
+          height: 30
+          offsets: { x: 0, y: -5 }
+        texture: "resources/textures/system/continue_stamps.png"
+        color: { r: 200, g: 100 }
+        center: { x: 330, y: 540 }
+        action:
+          command: |2
+            store(__MENU_PATH?
+              reveal(MAIN_TASKS::LEVEL7_SOLVED);
+            );
+            menu;
